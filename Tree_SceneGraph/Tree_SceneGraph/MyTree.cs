@@ -30,26 +30,26 @@ namespace Tree_SceneGraph
             // code here
         }
 
-        public void PrintTree()
+        public void PrintTree(MyTree<T> node, int padNum)
         {
-            Console.WriteLine(data);
-            foreach (MyTree<T> kid in this.children)
+            // padding based on tree nesting
+            Console.WriteLine("-> ".PadLeft(padNum) + node.data.ToString());
+
+            foreach (MyTree<T> kid in node.children)
             {
-                Console.WriteLine(kid.data);
+                PrintTree(kid, padNum + 6);
             }
         }
 
         public bool PlayerInsert(MyTree<T> node, T newData, T parentData)
         {
-            Console.WriteLine("parent data: " + parentData);
-            Console.WriteLine("node data: " + node.data);
-
-            // if you find the parent node, add newData as a child
-            // then exit the method
+            Console.WriteLine("parentdata: " + parentData);
+            Console.WriteLine("nodeData: " + node.data);
+            // if you find the parent node, add newData as a child of node
+            // then return true -->
             if (node.data.Equals(parentData))
             {
-                Console.WriteLine("adding " + newData + " as a child of " + node.data);
-
+                Console.WriteLine("added " + newData + " as a child of " + node.data);
                 node.AddChild(newData);
                 return true;
             }
@@ -57,11 +57,15 @@ namespace Tree_SceneGraph
             // recursion
             foreach (MyTree<T> kid in node.children)
             {
-                Console.WriteLine("Kid data: " + kid.data);
+                Console.WriteLine("kidData: " + kid.data);
                 // kid becomes the new node, and search resumes
-                return PlayerInsert(kid, newData, parentData);     
+                if(PlayerInsert(kid, newData, parentData))
+                {
+                    return true;
+                }
             }
 
+            // if no new node was added
             return false;
         }
     }

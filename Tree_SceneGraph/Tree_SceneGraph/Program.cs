@@ -7,11 +7,15 @@
             // testing
             MyTree<string> tree = new MyTree<string>("scene");  // create instance of tree
             tree.PlayerInsert(tree, "child", "scene");
-            Console.WriteLine();
             tree.PlayerInsert(tree, "child2", "child");
+            tree.PlayerInsert(tree, "child3", "child");
+            tree.PlayerInsert(tree, "child4", "scene");
+            Console.WriteLine();
+            bool test = tree.PlayerInsert(tree, "child5", "child3");
+            Console.WriteLine(test);
 
             Console.WriteLine();
-            tree.PrintTree();
+            tree.PrintTree(tree, 0);
 
             //MyMenu();
         }
