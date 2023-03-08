@@ -36,33 +36,33 @@ namespace Tree_SceneGraph
             MyTree<string> tree = new MyTree<string>("scene");  // create instance of tree
 
             bool keepGoing = true;
+            Console.WriteLine();
+            Console.WriteLine("Welcome To The Scene Graph Simulator----!");
+            Console.WriteLine("Please enter a command | To exit the program input \"q\"");
 
             while (keepGoing)
             {
                 Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("Welcome To The Scene Graph Simulator----!");
-                Console.WriteLine();
-                Console.WriteLine("\t1. Insert Node\n" + "\t2. Delete Node\n" +
-                                "\t3. Print Current Tree\n" + "\t4. Quit\n");
+                string userInput = UserInput();
+                string[] words = userInput.Split(' ');
 
-                switch (UserInput())    // handle user input
+                switch (words[0])   // handle user input
                 {
-                    case "1":
-                        UI_PlayerInsert(tree);
+                    case "insert":
+                        UI_PlayerInsert(tree, words);
                         break;
 
-                    case "2":
+                    case "delete":
                         break;
 
-                    case "3":
+                    case "print":
                         Console.WriteLine("---");
                         Console.WriteLine("Current Tree:");
                         tree.PrintTree(tree, 0);    // print the tree
                         break;
 
-                    case "4":
-                        keepGoing = false;
+                    case "q":
+                        keepGoing= false;
                         break;
 
                     default:
@@ -70,20 +70,12 @@ namespace Tree_SceneGraph
                         Console.WriteLine("Invalid Input!");
                         break;
                 }
-
             }
         }
 
         // Text UI for the insert command
-        public static void UI_PlayerInsert(MyTree<string> tree)
+        public static void UI_PlayerInsert(MyTree<string> tree, string[] words)
         {
-            Console.WriteLine("---");
-            Console.WriteLine("Please input your command as: \"insert A B\"");
-            Console.WriteLine("(A = child, B = parent)");
-            Console.WriteLine();
-
-            string userInput = UserInput();
-            string[] words = userInput.Split(' ');
 
             // if the command doesn't start with "insert" or there are more than 3 words, exit the method
             if (!words[0].Equals("insert") || words.Length > 3)
