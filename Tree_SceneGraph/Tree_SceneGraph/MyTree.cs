@@ -25,9 +25,9 @@ namespace Tree_SceneGraph
             children.AddLast(new MyTree<T>(data));
         }
 
-        public void RemoveChild(T data)
+        public void RemoveChild(MyTree<T> node)
         {
-            // code here
+            children.Remove(node);
         }
 
         public void PrintTree(MyTree<T> node, int padNum)
@@ -41,6 +41,19 @@ namespace Tree_SceneGraph
             }
         }
 
+        /****************************************************************************
+         * Insert a node where "node.data" = "newdata" into the tree based as a child
+         * of "parentdata"
+         * 
+         * Each iteration checks if the current node.data is equal to parent data
+         * if its equal, then add the new data as a child of the node
+         * if not, then recursive call, and check if the current node has children
+         * and search the children
+         * --> continue searching tree until a matching node is found, or the whole
+         * tree is searched
+         * 
+         * Return true if a node was inserted, false if no new node was added
+        ****************************************************************************/
         public bool PlayerInsert(MyTree<T> node, T newData, T parentData)
         {
             Console.WriteLine("parentdata: " + parentData);
@@ -59,13 +72,40 @@ namespace Tree_SceneGraph
             {
                 Console.WriteLine("kidData: " + kid.data);
                 // kid becomes the new node, and search resumes
+                // if the node is found, it return true
                 if(PlayerInsert(kid, newData, parentData))
                 {
-                    return true;
+                    return true;    // exit the recursive loop
                 }
             }
 
             // if no new node was added
+            return false;
+        }
+
+        // if you find the node you want to delete, return [something]? which
+        // signals the program to --> send parent node to call RemoveChild
+        public bool PlayerDelete(MyTree<T> node, MyTree<T> parentNode, T data)
+        {
+            // if node is found and it equals the data you want to remove
+            // remove node from parentNode
+            if (node.data.Equals(data))
+            {
+                Console.WriteLine("end, loop: " + node.data);
+                Console.WriteLine("removed " + parentNode.data + " as a child of " + parentNode.data);
+                parentNode.RemoveChild(node);
+                return true;
+            }
+
+            foreach (MyTree<T> kid in node.children)
+            {
+                if (PlayerDelete(kid,node, data))
+                {
+                    return true;    // stop the recursive call
+                }
+            }
+
+            // no node was deleted
             return false;
         }
     }

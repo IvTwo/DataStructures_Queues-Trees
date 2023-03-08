@@ -13,9 +13,17 @@
             Console.WriteLine();
             bool test = tree.PlayerInsert(tree, "child5", "child3");
             Console.WriteLine(test);
+            tree.PlayerInsert(tree, "child6", "child5");
 
             Console.WriteLine();
             tree.PrintTree(tree, 0);
+            Console.WriteLine();
+
+            bool test2 = tree.PlayerDelete(tree, tree, "child5");
+            Console.WriteLine(test2);
+            Console.WriteLine();
+            tree.PrintTree(tree, 0);
+
 
             //MyMenu();
         }
