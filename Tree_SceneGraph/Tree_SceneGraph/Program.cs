@@ -79,7 +79,7 @@ namespace Tree_SceneGraph
         {
 
             // exit if there are too many words in the command
-            if (words.Length > 3)
+            if (words.Length != 3)
             {
                 Console.WriteLine("---");
                 Console.WriteLine("Invalid Input!");
@@ -87,16 +87,28 @@ namespace Tree_SceneGraph
             }
 
             // insert the node
-            bool didInsert = tree.PlayerInsert(tree, words[1], words[2]);
-            if(didInsert)
+            int didInsert = tree.PlayerInsert(tree, words[1], words[2]);
+
+            switch (didInsert)
             {
-                Console.WriteLine("---");
-                Console.WriteLine("Inserted " + words[1] + " as a child of " + words[2]);
-            }
-            else
-            {
-                Console.WriteLine("---");
-                Console.WriteLine("Parent node not found!");
+                case 1:
+                    Console.WriteLine("---");
+                    Console.WriteLine("Inserted " + words[1] + " as a child of " + words[2]);
+                    break;
+
+                case 0:
+                    Console.WriteLine("---");
+                    Console.WriteLine("Parent node not found!");
+                    break;
+
+                case -1:
+                    Console.WriteLine("---");
+                    Console.WriteLine("There's already a node with that name!");
+                    break;
+
+                default:
+                    Console.WriteLine("this should never appear");
+                    break;
             }
         }
 
@@ -104,7 +116,7 @@ namespace Tree_SceneGraph
         public static void UI_PlayerDelete(MyTree<string> tree, string[] words)
         {
             // exit if there are too many words in the command
-            if (words.Length > 2)
+            if (words.Length != 2)
             {
                 Console.WriteLine("---");
                 Console.WriteLine("Invalid Input!");

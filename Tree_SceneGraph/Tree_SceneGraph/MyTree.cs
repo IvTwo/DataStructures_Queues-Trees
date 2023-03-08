@@ -53,16 +53,17 @@ namespace Tree_SceneGraph
          * --> continue searching tree until a matching node is found, or the whole
          * tree is searched
          * 
-         * Return true if a node was inserted, false if no new node was added
+         * Returns:
+         *      1 = node inserted
+         *      0 = no node inserted
+         *      -1 = duplicate node found
         ****************************************************************************/
-        public bool PlayerInsert(MyTree<T> node, T newData, T parentData)
+        public int PlayerInsert(MyTree<T> node, T newData, T parentData)
         {
-            // if you find the parent node, add newData as a child of node
-            // then return true -->
-            if (node.data.Equals(parentData))
+            // check for duplicates
+            if (node.data.Equals(newData))
             {
-                node.AddChild(newData);
-                return true;
+                return -1;
             }
 
             // recursion
@@ -70,14 +71,27 @@ namespace Tree_SceneGraph
             {
                 // kid becomes the new node, and search resumes
                 // if the node is found, it return true
-                if(PlayerInsert(kid, newData, parentData))
+                int result = PlayerInsert(kid, newData, parentData);
+                if (result == 1)
                 {
-                    return true;    // exit the recursive loop
+                    return 1;    // exit the recursive loop
+                }
+                else if (result == -1)
+                {
+                    return -1;
                 }
             }
 
+            // if you find the parent node, add newData as a child of node
+            // then return true -->
+            if (node.data.Equals(parentData))
+            {
+                node.AddChild(newData);
+                return 1;
+            }
+
             // if no new node was added
-            return false;
+            return 0;
         }
 
 
@@ -92,13 +106,6 @@ namespace Tree_SceneGraph
         ****************************************************************************/
         public bool PlayerDelete(MyTree<T> node, MyTree<T> parentNode, T data)
         {
-            // if node is found and it equals the data you want to remove
-            // remove node from parentNode
-            if (node.data.Equals(data))
-            {
-                parentNode.RemoveChild(node);
-                return true;
-            }
 
             foreach (MyTree<T> kid in node.children)
             {
@@ -106,6 +113,14 @@ namespace Tree_SceneGraph
                 {
                     return true;    // stop the recursive call
                 }
+            }
+
+            // if node is found and it equals the data you want to remove
+            // remove node from parentNode
+            if (node.data.Equals(data))
+            {
+                parentNode.RemoveChild(node);
+                return true;
             }
 
             // no node was deleted
