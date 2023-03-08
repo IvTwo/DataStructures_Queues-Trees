@@ -53,6 +53,7 @@ namespace Tree_SceneGraph
                         break;
 
                     case "delete":
+                        UI_PlayerDelete(tree, words);
                         break;
 
                     case "print":
@@ -77,8 +78,8 @@ namespace Tree_SceneGraph
         public static void UI_PlayerInsert(MyTree<string> tree, string[] words)
         {
 
-            // if the command doesn't start with "insert" or there are more than 3 words, exit the method
-            if (!words[0].Equals("insert") || words.Length > 3)
+            // exit if there are too many words in the command
+            if (words.Length > 3)
             {
                 Console.WriteLine("---");
                 Console.WriteLine("Invalid Input!");
@@ -97,7 +98,31 @@ namespace Tree_SceneGraph
                 Console.WriteLine("---");
                 Console.WriteLine("Parent node not found!");
             }
+        }
 
+        // Text UI for delete command
+        public static void UI_PlayerDelete(MyTree<string> tree, string[] words)
+        {
+            // exit if there are too many words in the command
+            if (words.Length > 2)
+            {
+                Console.WriteLine("---");
+                Console.WriteLine("Invalid Input!");
+                return;
+            }
+
+            // delete the node
+            bool didDelete = tree.PlayerDelete(tree, tree, words[1]);
+            if (didDelete)
+            {
+                Console.WriteLine("---");
+                Console.WriteLine("Deleted node: " + words[1]);
+            }
+            else
+            {
+                Console.WriteLine("---");
+                Console.WriteLine("Node not found!");
+            }
         }
 
         // return the user input |  O(1)

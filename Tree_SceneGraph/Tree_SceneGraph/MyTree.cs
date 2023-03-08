@@ -30,6 +30,7 @@ namespace Tree_SceneGraph
             children.Remove(node);
         }
 
+        // print tree
         public void PrintTree(MyTree<T> node, int padNum)
         {
             // padding based on tree nesting
@@ -79,16 +80,22 @@ namespace Tree_SceneGraph
             return false;
         }
 
-        // if you find the node you want to delete, return [something]? which
-        // signals the program to --> send parent node to call RemoveChild
+
+        /****************************************************************************
+         * Delete a node with "T data"
+         * 
+         * Each iteration checks if the current note data == the data you want to delete
+         * if this node is found, remove it from its parent node
+         * if not, recursive call and check its children
+         * 
+         * Return true if a node was deleted, false if no node was deleted
+        ****************************************************************************/
         public bool PlayerDelete(MyTree<T> node, MyTree<T> parentNode, T data)
         {
             // if node is found and it equals the data you want to remove
             // remove node from parentNode
             if (node.data.Equals(data))
             {
-                Console.WriteLine("end, loop: " + node.data);
-                Console.WriteLine("removed " + parentNode.data + " as a child of " + parentNode.data);
                 parentNode.RemoveChild(node);
                 return true;
             }
