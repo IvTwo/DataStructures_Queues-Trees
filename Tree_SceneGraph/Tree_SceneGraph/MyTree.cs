@@ -56,13 +56,10 @@ namespace Tree_SceneGraph
         ****************************************************************************/
         public bool PlayerInsert(MyTree<T> node, T newData, T parentData)
         {
-            Console.WriteLine("parentdata: " + parentData);
-            Console.WriteLine("nodeData: " + node.data);
             // if you find the parent node, add newData as a child of node
             // then return true -->
             if (node.data.Equals(parentData))
             {
-                Console.WriteLine("added " + newData + " as a child of " + node.data);
                 node.AddChild(newData);
                 return true;
             }
@@ -70,7 +67,6 @@ namespace Tree_SceneGraph
             // recursion
             foreach (MyTree<T> kid in node.children)
             {
-                Console.WriteLine("kidData: " + kid.data);
                 // kid becomes the new node, and search resumes
                 // if the node is found, it return true
                 if(PlayerInsert(kid, newData, parentData))

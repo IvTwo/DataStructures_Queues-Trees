@@ -1,4 +1,6 @@
-﻿namespace Tree_SceneGraph
+﻿using System.Xml.Linq;
+
+namespace Tree_SceneGraph
 {
     internal class Program
     {
@@ -91,11 +93,17 @@
                 return;
             }
 
+            // insert the node
             bool didInsert = tree.PlayerInsert(tree, words[1], words[2]);
             if(didInsert)
             {
                 Console.WriteLine("---");
-                Console.WriteLine("Node Inserted!")
+                Console.WriteLine("Inserted " + words[1] + " as a child of " + words[2]);
+            }
+            else
+            {
+                Console.WriteLine("---");
+                Console.WriteLine("Parent node not found!");
             }
 
         }
